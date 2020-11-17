@@ -146,3 +146,12 @@ app.get("/users/:userId/posts/:postId", (req, res) => {
 
 > `Property 'postld' does not exist on type 'PathArgs<"/users/:userId/posts/:postId">'. Did you mean 'postId'?`
 
+## Dispatching Actions
+
+TODO
+
+## A SQL Database
+
+These small examples are all well and good, but surely you couldn't use this technique to interpret something as complex as a SQL query?
+
+Actually, you could. I know because [Charles Pick of codemix has done just that.](https://github.com/codemix/ts-sql) It's a brilliant demonstration of the power of type system, but I wouldn't go uninstalling PostgreSQL just yet.
