@@ -148,10 +148,143 @@ app.get("/users/:userId/posts/:postId", (req, res) => {
 
 ## Dispatching Actions
 
-TODO
+It's a common pattern in many applications to represent actions in the system as values. This lets you easily track history, pass the actions over a network, and make code easier to test. The types to represent our actions might look something like this.
+
+```ts
+type BakeBrownies = { tag: "BAKE_BROWNIES", quantity: number };
+type EatBrownie = { tag: "EAT_BROWNIE" };
+type Action = BakeBrownies | EatBrownie;
+```
+
+Eventually we need to do something with these action objects, so let's write a simple class to handle them.
+
+```ts
+class BrownieCounter {
+    brownieCount = 0;
+
+    bakeBrownies(action: BakeBrownies): void {
+        this.brownieCount += action.quantity;
+    }
+
+    eatBrownie(action: EatBrownie): void {
+        if (this.brownieCount > 0) {
+            console.log("Om nom nom");
+            this.brownieCount -= 1;
+        } else {
+            console.log("Noooooo!");
+        }
+    }
+}
+```
+
+To glue them together, we'll need a function which takes the action and passes it to the correct method of our `BrownieCounter`.
+
+```ts
+function dispatchAction(brownieCounter: BrownieCounter, action: Action): void {
+    switch (action.tag) {
+        case "BAKE_BROWNIES":
+            brownieCounter.bakeBrownies(action);
+            break;
+        case "EAT_BROWNIE":
+            brownieCounter.eatBrownie(action);
+            break;
+    }
+}
+```
+
+This is ok for now, but as we add more actions to our program, it's going to get annoying having to add a new case for every one. Since the method names on our `BrownieCounter` are just camel case versions of the action tags, we can rewrite `dispatchAction` to generate the method name and call it. We just need a little `snakeCaseToCamelCase` helper function.
+
+```ts
+function dispatchAction(brownieCounter: BrownieCounter, action: Action): void {
+    (brownieCounter as any)[snakeCaseToCamelCase(action.tag)](action);
+}
+
+function snakeCaseToCamelCase(snakeCaseString: string): string {
+    return (
+        snakeCaseString
+        .split("_")
+        .map((word, i) =>
+            i === 0 ?
+                word.toLowerCase() :
+                word && (word[0].toUpperCase() + word.slice(1).toLowerCase())
+        )
+        .join("")
+    );
+}
+```
+
+This avoids the boilerplate, but it's a step backwards for type safety. As the type signature of `snakeCaseToCamelCase` only says it returns a string, the compiler has no way to know whether that string will be a valid method name for `BrownieCounter`, so we have to cast to `any` to allow it. Even worse, if we add a new action to the program, but forget to add a method to `BrownieCounter` to handle it, we won't get a type error. It will not be until runtime that we see this sad message.
+
+> `brownieCounter[snakeCaseToCamelCase(...)] is not a function`
+
+Luckily, with TypeScript 4.1, we no longer need to chose between boilerplate and type safety. Using template literal types we can reimplement our case conversion at the type level. This requires another handy new feature - four new types for manipulating string literal types called `Uppercase`, `Lowercase`, `Capitalize` and `Uncapitalize`.
+
+```ts
+type SnakeCaseToCamelCase<S extends string> =
+    S extends `${infer FirstWord}_${infer Rest}` ?
+        `${Lowercase<FirstWord>}${SnakeCaseToPascalCase<Rest>}` :
+        `${Lowercase<S>}`;
+
+type SnakeCaseToPascalCase<S extends string> =
+    S extends `${infer FirstWord}_${infer Rest}` ?
+        `${Capitalize<Lowercase<FirstWord>>}${SnakeCaseToPascalCase<Rest>}` :
+        Capitalize<Lowercase<S>>;
+
+type BakeBrowniesCamelCase = SnakeCaseToCamelCase<"BAKE_BROWNIES">;
+// = "bakeBrownies"
+```
+
+We can use this fancy new type to provide a more informative signature for our helper function.
+
+```ts
+function snakeCaseToCamelCase<S extends string>(
+    snakeCaseString: S,
+): SnakeCaseToCamelCase<S> {
+    return (
+        snakeCaseString
+        .split("_")
+        .map((word, i) =>
+            i === 0 ?
+                word.toLowerCase() :
+                word && (word[0].toUpperCase() + word.slice(1).toLowerCase())
+        )
+        .join("")
+    ) as SnakeCaseToCamelCase<S>
+}
+
+const tag = snakeCaseToCamelCase("BAKE_BROWNIES");
+// has type "bakeBrownies"
+```
+
+This lets us remove the unsafe type cast from `dispatchAction`.
+
+```ts
+function dispatchAction(brownieCounter: BrownieCounter, action: Action): void {
+    brownieCounter[snakeCaseToCamelCase(action.tag)](action as any);
+}
+```
+
+Unfortunately we still need to cast the *action* to `any`, as the compiler isn't quite smart enough to figure out that we've picked the *right* method for handling the action. Still, it's a big improvement. If we forget to add a method to `BrownieCounter` for a new action, we'll get a nice clear error message pointing out our mistake.
+
+```ts
+type StealBrownie = { tag: "STEAL_BROWNIE" };
+
+type Action = BakeBrownies | EatBrownie | StealBrownie;
+```
+
+> `Property 'stealBrownie' does not exist on type 'BrownieCounter'.`
+
+Success!
 
 ## A SQL Database
 
 These small examples are all well and good, but surely you couldn't use this technique to interpret something as complex as a SQL query?
 
-Actually, you could. I know because [Charles Pick of codemix has done just that.](https://github.com/codemix/ts-sql) It's a brilliant demonstration of the power of type system, but I wouldn't go uninstalling PostgreSQL just yet.
+Actually, you could. I know because [Charles Pick of codemix has done just that.](https://github.com/codemix/ts-sql) It's a brilliant demonstration of the power of the type system, but I wouldn't go uninstalling PostgreSQL just yet.
+
+## That's All Folks
+
+
+I hope you enjoyed this dive into the world of template literal types.
+
+If you've spotted any errors in this post, [please let me know by opening an issue on GitHub.](https://github.com/DavidTimms/davidtimms.github.io/issues/new)
