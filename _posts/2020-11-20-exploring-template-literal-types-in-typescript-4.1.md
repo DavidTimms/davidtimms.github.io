@@ -4,7 +4,7 @@ title: Exploring Template Literal Types in TypeScript 4.1
 categories: programming-languages typescript
 ---
 
-[TypeScript 4.1 has just been released.](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-beta/) This edition builds on the features [introduced in version 4.0](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-beta/) with a group of new tools which provide typesafe ways to express common dynamic JavaScript patterns. As with most powerful type system features, they can also be used and abused in weird and wonderful ways.
+[TypeScript 4.1 has just been released.](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1/) This edition of the language builds on the features [introduced in version 4.0](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0/) with a group of new tools which provide typesafe ways to express common dynamic JavaScript patterns. As with most powerful type system features, they can also be used and abused in weird and wonderful ways.
 
 One of the most interesting new features is __template literal types__. Back in ES2015, a new string syntax called a [template literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) was added to JavaScript, providing a convenient and readable way to insert values into strings. These are strings delimited by backticks which evaluate any expression surrounded by `${` ... `}`, inserting the result into the string.
 
@@ -57,7 +57,7 @@ In Node.js web frameworks like [Express](https://expressjs.com), it is common to
 ```ts
 app.get("/users/:userId/posts/:postId", (req, res) => {
     const userId = req.params.userId;
-    const postId = req.params.postld;
+    const postId = req.params.posId;
     res.send(`Requested post ${postId} from user ${userId}`);
 });
 ```
@@ -217,7 +217,7 @@ This avoids the boilerplate, but it's a step backwards for type safety. As the t
 
 > `brownieCounter[snakeCaseToCamelCase(...)] is not a function`
 
-Luckily, with TypeScript 4.1, we no longer need to chose between boilerplate and type safety. Using template literal types we can reimplement our case conversion at the type level. This requires another handy new feature - four new types for manipulating string literal types called `Uppercase`, `Lowercase`, `Capitalize` and `Uncapitalize`.
+Luckily, with TypeScript 4.1, we no longer need to choose between boilerplate and type safety. Using template literal types we can reimplement our case conversion at the type level. This requires another handy new feature - four new types for manipulating string literal types called `Uppercase`, `Lowercase`, `Capitalize` and `Uncapitalize`.
 
 ```ts
 type SnakeCaseToCamelCase<S extends string> =
