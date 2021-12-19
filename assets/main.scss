@@ -18,3 +18,8 @@ body {
     width: -webkit-calc(65% - (#{$spacing-unit} / 2));
     width:         calc(65% - (#{$spacing-unit} / 2));
 }
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
