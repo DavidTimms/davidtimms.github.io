@@ -1,11 +1,10 @@
 ---
 layout: post
 title: Effective.ts Tutorial - Part One
-date: 2021-12-19 14:00:00 +0000
 categories: typescript effective.ts
 ---
 
-[Effective.ts](https://github.com/DavidTimms/effective.ts) is a library I have implemented for writing safe, concurrent, fault-tolerant programs in TypeScript. It takes heavy inspiration from the way side effects are handled in pure functional systems like [Haskell](https://en.wikibooks.org/wiki/Haskell/Understanding_monads/IO) and [Cats Effect (Scala)](https://typelevel.org/cats-effect/). This tutorial introduces some of the basic concepts and unique features of the library.
+[Effective.ts](https://github.com/DavidTimms/effective.ts) is a library I recently released, which aims to make it easier to write safe, concurrent, fault-tolerant programs in TypeScript. It takes heavy inspiration from the way side effects are handled in pure functional systems like [Haskell](https://en.wikibooks.org/wiki/Haskell/Understanding_monads/IO) and [Cats Effect (Scala)](https://typelevel.org/cats-effect/). This tutorial introduces some of the basic concepts and unique features of the library.
 
 ## Introducing IO
 
@@ -17,8 +16,8 @@ At this stage, it might seem like unnecessary indirection to create an `IO` then
 
 The `IO` type has two type parameters:
 
-- `A` is the type of values returned by running the action.
-- `E` is the type of errors raised by this action. For now, we can omit this, and let it default to `unknown`. We'll see more about handling errors in part two.
+- `A` is the type of values returned when the action succeeds.
+- `E` is the type of errors raised when the action fails. For now, we can omit this, and let it default to `unknown`. We'll see more about handling errors later.
 
 Let's see how we create an `IO`.
 
@@ -49,7 +48,7 @@ In the above example, `console.log` does not return any useful value, so the res
 We can also create actions which perform asynchronous effects, such as network requests.
 
 ```typescript
-import fetch from "node-fetch";
+import fetch, { Response } from "node-fetch";
 
 const makeRequest: IO<Response> =
     IO(() => fetch("https://www.wikipedia.org"));
@@ -60,6 +59,8 @@ makeRequest.run();
 ```
 
 Notice that the type of `makeRequest` is `IO<Response>`, not `IO<Promise<Response>>`? That demonstrates something important - all actions in effective.ts are implicitly asynchronous, so the types do not distinguish between synchronous and asynchronous. You shouldn't need to use `async` and `await` at all, or deal with promises directly. Asynchronous actions are awaited automatically by the runtime.
+
+## Combining Actions
 
 Now that we know how to build a basic action, how do we go about combining these into full programs? `IO` has a few methods to help.
 
@@ -111,7 +112,7 @@ alwaysFails.run();
 As we saw earlier, when we want to call outside code with side effects, we need to wrap the call in `IO`. This includes any code which might throw an exception. When we run the action, it will catch any exceptions which are thrown and raise them in the `IO` context. Since we cannot know what exceptions third-party code might throw, the error type in `IO` type defaults to `unknown`.
 
 ```typescript
-const printGreeting = IO<void, unknown> =
+const printGreeting: IO<void, unknown> =
     IO(() => console.log("Greetings!"));
 ```
 
@@ -129,7 +130,7 @@ const knownError: IO<void, PrintingError> =
     printGreeting.mapError(error => new PrintingError(error));
 ```
 
-If we want to recover from an error instead of just transforming it, we need [the `catch` method](https://davidtimms.github.io/effective.ts/classes/io.IOBase.html#catch). The catcher function return an action, so it can use `IO.raise` to re-raise an error or `IO.wrap` to return a fallback value. 
+If we want to recover from an error instead of just transforming it, we need [the `catch` method](https://davidtimms.github.io/effective.ts/classes/io.IOBase.html#catch). The catcher function returns an action, so it can use `IO.raise` to re-raise an error or `IO.wrap` to return a fallback value. 
 
 ```typescript
 import fetch from "node-fetch";
