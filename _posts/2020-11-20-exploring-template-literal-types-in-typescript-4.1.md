@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Exploring Template Literal Types in TypeScript 4.1
+author: David Timms
 categories: programming-languages typescript
 ---
 

@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Effective.ts Tutorial - Part One
+author: David Timms
 categories: typescript effective.ts
+license: null
 ---
 
 [Effective.ts](https://github.com/DavidTimms/effective.ts) is a library I recently released, which aims to make it easier to write safe, concurrent, fault-tolerant programs in TypeScript. It takes heavy inspiration from the way side effects are handled in pure functional systems like [Haskell](https://en.wikibooks.org/wiki/Haskell/Understanding_monads/IO) and [Cats Effect (Scala)](https://typelevel.org/cats-effect/). This tutorial introduces some of the basic concepts and unique features of the library.

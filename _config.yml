@@ -20,16 +20,27 @@
 
 title: David Timms
 author: David Timms
+tagline: Thoughts on code
 description: >- # this means to ignore newlines until "baseurl:"
   The personal blog of David Timms.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+# baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://davidtimms.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  DavidTimms
+avatar: assets/avatar.png
+lang: en
+
 
 # Build settings
-theme: minima
-plugins:
-  - jekyll-feed
+# theme: jekyll-theme-chirpy
+remote_theme: cotes2020/jekyll-theme-chirpy
+# plugins:
+#   - jekyll-feed
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
