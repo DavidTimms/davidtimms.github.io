@@ -1,0 +1,17 @@
+name: Build site and deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - chirpy-theme
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - uses: helaili/jekyll-action@d305e465c911226c731afb6db07c8bde20e03ced
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
