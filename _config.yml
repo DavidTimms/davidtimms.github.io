@@ -38,6 +38,10 @@ collections:
     output: true
     sort_by: order
 
+social:
+  name: David Timms
+  links:
+    - https://github.com/DavidTimms
 
 # Exclude from processing.
 # The following items will not be processed, by default.
