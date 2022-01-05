@@ -21,7 +21,10 @@ Another aspect of the developer experience which I enjoyed was **[the VSCode plu
 
 Not only is the compiler faster than many of its peers, but its Hindley-Milner type inference algorithm is the most effective I have ever used. It feels almost magical to write a non-trivial program with no type annotations and have the compiler derive precise and correct static types throughout. In practice, I found that I usually did want to explicitly provide parameter and return types, since I prefer to start writing a function by thinking about the inputs and outputs, then tackle the implementation later.
 
-Functional features - immutable data structures, pattern matching, currying.
+Having written functional-style code in languages where it is not the primary paradigm (TypeScript, Python), it feels great to use a language like OCaml which makes those patterns easy and elegant. The built-in immutable list, map and set data structures meant I didn't need to worry about accidental mutation or cloning. They are a joy to manipulate with higher-order functions (e.g. `map`, `filter`, `fold`, `sum`, `find`), especially when combined with universal [currying](https://en.wikipedia.org/wiki/Currying). I'm still not 100% sold on the merit of curried functions though - they can certainly lead to some beautiful and concise code, but as you get further towards full [point-free style](https://en.wikipedia.org/wiki/Tacit_programming), it can become impenetrably dense. I would rather a function which is twice as long, if it takes half the time to understand. As always, good judgement and a little restraint go a long way.
+
+OCaml's pattern matching is simple, but effective. Modelling data with [ADTs](https://en.wikipedia.org/wiki/Algebraic_data_type) then manipulating them with pattern matching functions is just such a good fit for the types of puzzles in Advent of Code. In Scala, I have found that this style can be just as effective on more complex "real world" problems, and I look forward to tackling some of those in OCaml in future.
+
 
 Syntax - unfamiliar but quite elegant. Named and optional parameters. Pipeline operator.
 
