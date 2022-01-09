@@ -27,17 +27,19 @@ OCaml's **pattern matching** is simple, but effective. Modelling data with [ADTs
 
 The language's **syntax** was something I did not expect to like. Facebook thought OCaml's syntax was so unintuitive that they created [an alternative syntax, Reason](https://en.wikipedia.org/wiki/Reason_(programming_language)), to make it look more like JavaScript. The syntax is certainly unfamiliar for anybody used to [C family languages](https://en.wikipedia.org/wiki/Category:C_programming_language_family), but I found it quite quick to pick up. The core of the language is quite small, and once I had exorcised my TypeScript muscle memory, I had few problems. Where I did make mistakes, they were picked up by the compiler. In a statically-typed language it is quite hard to make a syntax error which leads to unexpected behaviour at runtime.
 
-I am a big fan of optional and named parameters, so it was a nice surprise to find both present in OCaml. I think these features are a big part why I find OCaml easier to read than Haskell. I was using Jane Street's alternative standard library, [base](https://opam.ocaml.org/packages/base/), which adds a ton of useful functions, and uses named parameters very heavily. Personally, I think they are slightly overused there, as explicit names at the call site don't add much clarity to generic functions like `List.map`.
+I am a big fan of **optional and named parameters**, so it was a nice surprise to find both present in OCaml. I think these features are a big part why I find OCaml easier to read than Haskell. I was using Jane Street's alternative standard library, [base](https://opam.ocaml.org/packages/base/), which adds a ton of useful functions, and uses named parameters very heavily. Personally, I think they are slightly overused there, as explicit names at the call site don't add much clarity to generic functions like `List.map`.
 
-Syntax - unfamiliar but quite elegant. Named and optional parameters. Pipeline operator.
+I was glad to see **[the pipeline operator](https://blog.shaynefletcher.org/2013/12/pipelining-with-operator-in-ocaml.html) (`|>`)** is present in OCaml. As far as I am aware, this first appeared in F♯, with variations having since appeared in Elixir, Hack, and [perhaps soon JavaScript](https://github.com/tc39/proposal-pipeline-operator/). This is such a small addition to the language, but makes a big difference to the experience of using it. It is natural to view a function as a serious of steps, laid out top to bottom, left to right, instead of having to read backwards from the most deeply nested expression. This is why "fluent" method chaining interfaces are so popular in object-oriented languages. Like pattern matching, this feels like a feature which will become mainstream over the next few years.
 
 ## The Bad
 
+While OCaml is a mature and battle-tested language, its **ecosystem is small and fractured**. There are some good learning resources available, such as [Real World OCaml](https://dev.realworldocaml.org/), there are far fewer than for more popular languages. This may be unfounded, but I worry that once I get in to the more obscure areas of the language, finding answers and explanation online will become difficult. This isn't helped by having two [competing](https://opam.ocaml.org/packages/base/) [standard libraries](https://ocaml.org/api/Stdlib.html), two [competing syntaxes](https://reasonml.github.io/), and part of the community apparently forking to create [a new language](https://rescript-lang.org/).
+
+When it comes to **libraries**, OCaml's package manager [lists just 3,668](https://opam.ocaml.org/packages/) packages - a far cry from the [1,841,493 JavaScript packages](https://www.npmjs.com/) or [349,026 Python packages](https://pypi.org/) available. Obviously, quality is more important than quantity, but it does indicate that you should be prepared to write your own libraries for some areas if you choose OCaml for a serious project.
+
+I must confess that when debugging, I quite often fall back on the tried and true technique of littering the code with print calls. I found this curious hard to do in OCaml, since there is **no universal string representation for data structures**. I wanted to be able to print out intermediate maps, lists, sets and records to verify that my parsing was working correctly, but I was not able to find a way to do this, other than writing repetitive functions to produce string representations. Perhaps I need to find a more sophisticated method of debugging, but I longed to be able to `.toString()` as I would in Scala or TypeScript.
+
 Lack of ad hoc and parametric polymorphism.
-
-No easy way to print data structures for debugging.
-
-Ecosystem is small and fractured.
 
 ## The Untouched
 
