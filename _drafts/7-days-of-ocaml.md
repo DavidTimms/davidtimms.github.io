@@ -41,15 +41,20 @@ I must confess that when debugging, I quite often fall back on the tried and tru
 
 Lack of ad hoc and parametric polymorphism.
 
+My frustration with converting to strings is really a symptom of a much wider limitation - the lack of ad-hoc polymorphism polymorphism. Other languages have different features to solve this problem - Haskell has type classes, Rust has traits, Scala has implicits. These all work in a similar way - by allowing operations on a type to be looked up and passed to a function implicitly by the compiler. This allows generic functions to do useful things with the parameters they are passed. For instance, producing string representations of data types in Haskell is elegantly handled by [the `Text.Show` type class](https://hackage.haskell.org/package/base-4.16.0.0/docs/Text-Show.html). As OCaml has no way to do this, polymorphic functions must be _fully_ polymorphic - able to operate on _any_ concrete type. The most commonly suggested workaround is to explicitly provide a first-class module This does work, but it requires quite a bit of boilerplate and clutters the call site. I found the standard library map and set types far harder to work with in OCaml than they are in other languages due to this.
+
+Most object-oriented languages tackle the same problem by using some form of subtyping, such as interfaces, inheritance or structural types. This is a bit flexible than type classes, as interfaces cannot be implemented outside the class definition, but it works well enough for most use cases. While OCaml has a very capable object system, it does not feel well unified with the rest of the language. integers are not objects. Lists are not objects. Records are not objects. This means there is no "iterable" interface for collections and no "comparable" interface for types which can be used in sets.
+
+The maintainers of OCaml are well aware of this shortcoming of the language, and aim to eventually add [modular implicits](https://arxiv.org/pdf/1512.01895.pdf) to the language. It seems to have been deprioritised in favour of [multicore and algebraic effects](https://discuss.ocaml.org/t/multicore-ocaml-september-2021-effect-handlers-will-be-in-ocaml-5-0/8554) though. I really hope that modular implicits make it in eventually, as they would hugely improve the ergonomics. 
+
 ## The Untouched
 
-GADTs.
+There are still many features of OCaml which I have not yet had an opportunity to use. These include some of its most interesting and distinct aspects, so I hope I do get a chance to explore then in a future project. Perhaps some of these could help with the pain points discussed above. The ones I am aware of are:
 
-PPX.
-
-Procedural programming.
-
-Object-oriented programming.
+- [Metaprogramming and PPX](https://ocamlverse.github.io/content/metaprogramming.html)
+- [GADTs](https://ocaml.org/manual/gadts.html)
+- [Functors and other advanced uses of the module system](https://ocaml.org/learn/tutorials/functors.html)
+- [Classes and objects](https://ocaml.org/learn/tutorials/objects.html)
 
 ## Conclusion
 
