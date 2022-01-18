@@ -58,6 +58,8 @@ There are still many features of OCaml which I have not yet had an opportunity t
 
 ## Conclusion
 
-Like OCaml. It badly needs type classes / implicits. Would use it for a language implementation.
+I thoroughly enjoyed my time using OCaml. The language feels mature, approachable and productive. While I still wish it had type classes, I'm sure I'll find better ways to cope without them as I explore further. I'm keen now to move on to some "real-world" projects - perhaps another compiler, or a web app, or a CLI tool.
+
+If you're interested in functional programming, or, like me, you just want to give a new language a go, why not take OCaml for a spin? You might like it too.
 
 [^dont-shoot-me]: For the record, I think Haskell is a wonderful language. Category theory is a great tool for sculpting composable abstractions, but it is not a goal in and of itself.
