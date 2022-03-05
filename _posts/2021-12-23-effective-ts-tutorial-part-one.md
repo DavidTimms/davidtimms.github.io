@@ -111,7 +111,7 @@ const alwaysFails: IO<never, TypeError> =
 alwaysFails.run();
 ```
 
-As we saw earlier, when we want to call outside code with side effects, we need to wrap the call in `IO`. This includes any code which might throw an exception. When we run the action, it will catch any exceptions which are thrown and raise them in the `IO` context. Since we cannot know what exceptions third-party code might throw, the error type in `IO` type defaults to `unknown`.
+As we saw earlier, when we want to call outside code with side effects, we need to wrap the call in `IO`. This includes any code which might throw an exception. When we run the action, it will catch any exceptions which are thrown and raise them in the `IO` context. Since we cannot know what exceptions third-party code might throw, the error type this case defaults to `unknown`.
 
 ```typescript
 const printGreeting: IO<void, unknown> =
