@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://davidtimms.github.io/programming-languages/typescript/2020/11/20/exploring-template-literal-types-in-typescript-4.1.html</loc>
+<lastmod>2020-11-20T00:00:00+00:00</lastmod>
+</url>
+<url>
+<loc>https://davidtimms.github.io/typescript/effective.ts/2021/12/23/effective-ts-tutorial-part-one.html</loc>
+<lastmod>2021-12-23T00:00:00+00:00</lastmod>
+</url>
+<url>
+<loc>https://davidtimms.github.io/programming-languages/ocaml/2022/01/19/seven-days-of-ocaml.html</loc>
+<lastmod>2022-01-19T00:00:00+00:00</lastmod>
+</url>
+<url>
+<loc>https://davidtimms.github.io/about/</loc>
+<lastmod>2022-03-05T16:40:22+00:00</lastmod>
+</url>
+<url>
+<loc>https://davidtimms.github.io/</loc>
+</url>
+<url>
+<loc>https://davidtimms.github.io/categories/programming-languages/</loc>
+</url>
+<url>
+<loc>https://davidtimms.github.io/categories/typescript/</loc>
+</url>
+<url>
+<loc>https://davidtimms.github.io/categories/effective-ts/</loc>
+</url>
+<url>
+<loc>https://davidtimms.github.io/categories/ocaml/</loc>
+</url>
+</urlset>
